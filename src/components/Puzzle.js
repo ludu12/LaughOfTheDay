@@ -1,57 +1,97 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Row} from './Row';
+import { Row } from './Row';
 
-const S3_PATH = 'https://photo-puzzle-picture.s3.amazonaws.com/';
+function getConfiguration(picture) {
+    const configuration = [];
+    const s3Path = 'https://photo-puzzle-picture.s3.amazonaws.com/';
 
-export const Puzzle = (props) => {
-    const [active, setActive] = React.useState(null);
-    const [configuration, setConfiguration] = React.useState(null);
+    for (let j = 1; j <= 9; j++) {
+        configuration.push({ value: j, path: s3Path + picture + '/' + j + '.png' });
+    }
+    return configuration;
+}
 
-    React.useEffect(() => {
-        const config = [];
+export class Puzzle extends React.Component {
 
-        for (let j = 1; j <= 9; j++) {
-            config.push({value: j, path: S3_PATH + props.picture + '/' + j + '.png'});
-        }
-        setConfiguration(config);
-    }, [props.picture]);
+    constructor(props) {
+        super(props);
+        this.state = {
+            pictures: ['numbers', 'butterfly'],
+            active: null,
+            picture: props.picture,
+            configuration: getConfiguration(props.picture),
+        };
 
-    const swapActiveImageWithSelectedImage = (imgVal) => {
-        if (active === null) {
-            setActive(imgVal);
-        } else {
-            const config = configuration.slice();
-
-            const indexOfSelectedImg = config.findIndex((x) => x.value === imgVal);
-            const indexOfActiveImg = config.findIndex((x) => x.value === active);
-
-            const pathOfSelectedImg = config[indexOfSelectedImg].path;
-
-            config[indexOfSelectedImg].path = config[indexOfActiveImg].path;
-            config[indexOfActiveImg].path = pathOfSelectedImg;
-
-            setConfiguration(config);
-            setActive(null);
-        }
-    };
-
-    if (!configuration) {
-        return <h1>LOADING...</h1>;
     }
 
-    return (
-        <div className='Puzzle'>
-            <Row handleClick={(imgVal) => swapActiveImageWithSelectedImage(imgVal)}
-                 configRow={configuration.slice(0, 3)}/>
-            <Row handleClick={(imgVal) => swapActiveImageWithSelectedImage(imgVal)}
-                 configRow={configuration.slice(3, 6)}/>
-            <Row handleClick={(imgVal) => swapActiveImageWithSelectedImage(imgVal)}
-                 configRow={configuration.slice(6, 9)}/>
-        </div>
-    );
-};
+    swapActiveImageWithSelectedImage(imgVal) {
+        if (this.state.active === null) {
+            const config = this.state.configuration.slice();
+
+            this.setState({
+                configuration: config,
+                active: imgVal,
+            });
+        } else {
+            const config = this.state.configuration.slice();
+
+            const indexOfSelectedImg = this.getConfigLocal(imgVal);
+            const indexOfActiveImg = this.getConfigLocal(this.state.active);
+
+            const pathOfSelectedImg = config[indexOfSelectedImg].path;
+            const pathOfActiveImg = config[indexOfActiveImg].path;
+
+            config[indexOfSelectedImg].path = pathOfActiveImg;
+            config[indexOfActiveImg].path = pathOfSelectedImg;
+
+            this.setState({
+                configuration: config,
+                active: null,
+            });
+        }
+    }
+
+    getConfigLocal(imgVal) {
+        return this.state.configuration.findIndex((x) => x.value === imgVal);
+    }
+
+    handleChange(e) {
+        const { value } = e.target;
+
+        this.setState({
+            picture: value,
+            configuration: getConfiguration(value),
+        });
+    }
+
+    render() {
+        const options = this.state.pictures.map(pic => {
+            return (
+                <option key={pic} value={pic}>{pic}</option>
+            );
+        });
+
+        return (
+            <div>
+                <div>
+                    <select defaultValue={this.state.selectedPicture} onChange={this.handleChange.bind(this)}>
+                        {options}
+                    </select>
+                </div>
+                <div className='Puzzle'>
+                    <Row handleClick={(imgVal) => this.swapActiveImageWithSelectedImage(imgVal)}
+                        configRow={this.state.configuration.slice(0, 3)}/>
+                    <Row handleClick={(imgVal) => this.swapActiveImageWithSelectedImage(imgVal)}
+                        configRow={this.state.configuration.slice(3, 6)}/>
+                    <Row handleClick={(imgVal) => this.swapActiveImageWithSelectedImage(imgVal)}
+                        configRow={this.state.configuration.slice(6, 9)}/>
+                </div>
+            </div>
+        );
+    }
+}
 
 Puzzle.propTypes = {
     picture: PropTypes.string
-}
+};

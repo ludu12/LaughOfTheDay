@@ -5,12 +5,15 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "lint": "eslint --fix \"src/**/*.js\" --ignore-pattern \"serviceWorker.js\"",
+    "lint": "eslint --fix \"src/**/*.js\" --ignore-pattern \"App_old.js\"",
     "test": "react-scripts test",
-    "test:nowatch": "CI=true react-scripts test",
+    "test:cov": "react-scripts test --coverage --watchAll=false",
+    "test:nowatch": "react-scripts test --watchAll=false",
     "eject": "react-scripts eject"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^4.1.0",
+    "@testing-library/react": "^9.3.0",
     "babel-eslint": "10.0.2",
     "eslint": "^6.3.0",
     "eslint-config-airbnb": "^18.0.1",
