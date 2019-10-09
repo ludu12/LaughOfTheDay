@@ -9,6 +9,7 @@
     "test": "react-scripts test",
     "test:cov": "react-scripts test --coverage --watchAll=false",
     "test:nowatch": "react-scripts test --watchAll=false",
+    "verify": "npm run lint && npm run test:cov",
     "eject": "react-scripts eject"
   },
   "devDependencies": {
