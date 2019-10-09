@@ -12,6 +12,11 @@
     "verify": "npm run lint && npm run test:cov",
     "eject": "react-scripts eject"
   },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/components/{!(App_old),}.js"
+    ]
+  },
   "devDependencies": {
     "@testing-library/jest-dom": "^4.1.0",
     "@testing-library/react": "^9.3.0",

@@ -80,11 +80,11 @@ export class Puzzle extends React.Component {
                     </select>
                 </div>
                 <div className='Puzzle'>
-                    <Row handleClick={(imgVal) => this.swapActiveImageWithSelectedImage(imgVal)}
+                    <Row handleClick={this.swapActiveImageWithSelectedImage.bind(this)}
                         configRow={this.state.configuration.slice(0, 3)}/>
-                    <Row handleClick={(imgVal) => this.swapActiveImageWithSelectedImage(imgVal)}
+                    <Row handleClick={this.swapActiveImageWithSelectedImage.bind(this)}
                         configRow={this.state.configuration.slice(3, 6)}/>
-                    <Row handleClick={(imgVal) => this.swapActiveImageWithSelectedImage(imgVal)}
+                    <Row handleClick={this.swapActiveImageWithSelectedImage.bind(this)}
                         configRow={this.state.configuration.slice(6, 9)}/>
                 </div>
             </div>
