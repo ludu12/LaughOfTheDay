@@ -2,11 +2,15 @@ import React from 'react';
 import { cleanup, fireEvent, render } from '@testing-library/react';
 import { Puzzle } from '../Puzzle';
 
+jest.mock('../../util/shuffle'); // mock shuffle so it's easier to test
+require('../../util/shuffle').shuffleArray.mockImplementation((arr) => arr);
+
 describe('Row component', () => {
     let container, puzzleName;
 
     beforeEach(() => {
         puzzleName = 'numbers';
+        process.env.REACT_APP_BASE_URL = 'http://localhost/';
         container = render(<Puzzle picture={puzzleName}/>).container;
     });
 
@@ -20,27 +24,7 @@ describe('Row component', () => {
         expect(imgList).toHaveLength(9);
 
         imgList.forEach((img, index) => {
-            expect(img.src).toEqual('https://photo-puzzle-picture.s3.amazonaws.com/' + puzzleName + '/' + (index + 1) + '.png');
-        });
-    });
-
-    describe('when picture is changed to butterfly', () => {
-        let newPuzzleName;
-
-        beforeEach(() => {
-            newPuzzleName = 'butterfly';
-
-            fireEvent.change(container.querySelector('select'), { target: { value: newPuzzleName } });
-        });
-
-        it('should render with new picture name', () => {
-            const imgList = container.querySelectorAll('img');
-
-            expect(container.querySelector('select').value).toEqual(newPuzzleName);
-            expect(imgList).toHaveLength(9);
-            imgList.forEach((img, index) => {
-                expect(img.src).toEqual('https://photo-puzzle-picture.s3.amazonaws.com/' + newPuzzleName + '/' + (index + 1) + '.png');
-            });
+            expect(img.src).toEqual(process.env.REACT_APP_BASE_URL + puzzleName + '/' + (index + 1) + '.png');
         });
     });
 
@@ -55,7 +39,7 @@ describe('Row component', () => {
             const imgList = container.querySelectorAll('img');
 
             imgList.forEach((img, index) => {
-                expect(img.src).toEqual('https://photo-puzzle-picture.s3.amazonaws.com/' + puzzleName + '/' + (index + 1) + '.png');
+                expect(img.src).toEqual(process.env.REACT_APP_BASE_URL + puzzleName + '/' + (index + 1) + '.png');
             });
         });
 
@@ -69,11 +53,11 @@ describe('Row component', () => {
             it('should swap two images when each are clicked', () => {
                 const imgList = container.querySelectorAll('img');
 
-                expect(imgList[0].src).toEqual('https://photo-puzzle-picture.s3.amazonaws.com/' + puzzleName + '/' + 2 + '.png');
-                expect(imgList[1].src).toEqual('https://photo-puzzle-picture.s3.amazonaws.com/' + puzzleName + '/' + 1 + '.png');
+                expect(imgList[0].src).toEqual(process.env.REACT_APP_BASE_URL + puzzleName + '/' + 2 + '.png');
+                expect(imgList[1].src).toEqual(process.env.REACT_APP_BASE_URL + puzzleName + '/' + 1 + '.png');
 
                 for (let i = 2; i < 9; i++) {
-                    expect(imgList[i].src).toEqual('https://photo-puzzle-picture.s3.amazonaws.com/' + puzzleName + '/' + (i + 1) + '.png');
+                    expect(imgList[i].src).toEqual(process.env.REACT_APP_BASE_URL + puzzleName + '/' + (i + 1) + '.png');
                 }
             });
         });
