@@ -4,7 +4,7 @@ import { Row } from './Row';
 
 function getConfiguration(picture) {
     const configuration = [];
-    const s3Path = 'https://photo-puzzle-picture.s3.amazonaws.com/';
+    const s3Path = process.env.REACT_APP_BASE_URL;
 
     for (let j = 1; j <= 9; j++) {
         configuration.push({ value: j, path: s3Path + picture + '/' + j + '.png' });
@@ -17,12 +17,17 @@ export class Puzzle extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            pictures: ['numbers', 'butterfly'],
             active: null,
-            picture: props.picture,
             configuration: getConfiguration(props.picture),
         };
+    }
 
+    componentWillReceiveProps(nextProps, nextContext) {
+        if (nextProps.picture) {
+            this.setState({
+                configuration: getConfiguration(nextProps.picture)
+            });
+        }
     }
 
     swapActiveImageWithSelectedImage(imgVal) {
@@ -56,37 +61,15 @@ export class Puzzle extends React.Component {
         return this.state.configuration.findIndex((x) => x.value === imgVal);
     }
 
-    handleChange(e) {
-        const { value } = e.target;
-
-        this.setState({
-            picture: value,
-            configuration: getConfiguration(value),
-        });
-    }
-
     render() {
-        const options = this.state.pictures.map(pic => {
-            return (
-                <option key={pic} value={pic}>{pic}</option>
-            );
-        });
-
         return (
-            <div>
-                <div>
-                    <select defaultValue={this.state.selectedPicture} onChange={this.handleChange.bind(this)}>
-                        {options}
-                    </select>
-                </div>
-                <div className='Puzzle'>
-                    <Row handleClick={this.swapActiveImageWithSelectedImage.bind(this)}
-                        configRow={this.state.configuration.slice(0, 3)}/>
-                    <Row handleClick={this.swapActiveImageWithSelectedImage.bind(this)}
-                        configRow={this.state.configuration.slice(3, 6)}/>
-                    <Row handleClick={this.swapActiveImageWithSelectedImage.bind(this)}
-                        configRow={this.state.configuration.slice(6, 9)}/>
-                </div>
+            <div className='Puzzle'>
+                <Row handleClick={this.swapActiveImageWithSelectedImage.bind(this)}
+                     configRow={this.state.configuration.slice(0, 3)}/>
+                <Row handleClick={this.swapActiveImageWithSelectedImage.bind(this)}
+                     configRow={this.state.configuration.slice(3, 6)}/>
+                <Row handleClick={this.swapActiveImageWithSelectedImage.bind(this)}
+                     configRow={this.state.configuration.slice(6, 9)}/>
             </div>
         );
     }

@@ -6,7 +6,7 @@ export const Img = (props) => {
 
     return (
         <div className='Img'>
-            <img onClick={() => handleClick()} style={{ height: '200px', width: '200px' }} src={imgPath} alt={imgPath}/>
+            <img onClick={() => handleClick()} src={imgPath} alt={imgPath}/>
         </div>
     );
 };
