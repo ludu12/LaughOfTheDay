@@ -35,11 +35,11 @@ export const Puzzle = (props) => {
     return (
         <div className='Puzzle'>
             <Row handleClick={swapActiveImageWithSelectedImage}
-                 configRow={configuration.slice(0, 3)}/>
+                configRow={configuration.slice(0, 3)}/>
             <Row handleClick={swapActiveImageWithSelectedImage}
-                 configRow={configuration.slice(3, 6)}/>
+                configRow={configuration.slice(3, 6)}/>
             <Row handleClick={swapActiveImageWithSelectedImage}
-                 configRow={configuration.slice(6, 9)}/>
+                configRow={configuration.slice(6, 9)}/>
         </div>
     );
 };

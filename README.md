@@ -1,4 +1,11 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Getting started
+
+1. Install [Node](https://nodejs.org/en/download/).
+    - With homebrew: `brew install node`
+2. Run `npm install` from root directory of this repo
+3. Make sure to set the environment vairable `REACT_APP_BASE_URL` is set
+    - You can to this by setting terminal env variable or through `.env` file
+4. Run `npm start`
 
 ## Available Scripts
 
