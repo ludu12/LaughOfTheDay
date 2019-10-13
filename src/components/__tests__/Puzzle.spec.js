@@ -10,7 +10,6 @@ describe('Row component', () => {
 
     beforeEach(() => {
         puzzleName = 'numbers';
-        process.env.REACT_APP_BASE_URL = 'http://localhost/';
         container = render(<Puzzle picture={puzzleName}/>).container;
     });
 
@@ -24,7 +23,7 @@ describe('Row component', () => {
         expect(imgList).toHaveLength(9);
 
         imgList.forEach((img, index) => {
-            expect(img.src).toEqual(process.env.REACT_APP_BASE_URL + puzzleName + '/' + (index + 1) + '.png');
+            expect(img.src).toMatch(puzzleName + '/' + (index + 1) + '.png');
         });
     });
 
@@ -39,7 +38,7 @@ describe('Row component', () => {
             const imgList = container.querySelectorAll('img');
 
             imgList.forEach((img, index) => {
-                expect(img.src).toEqual(process.env.REACT_APP_BASE_URL + puzzleName + '/' + (index + 1) + '.png');
+                expect(img.src).toMatch(puzzleName + '/' + (index + 1) + '.png');
             });
         });
 
@@ -53,11 +52,11 @@ describe('Row component', () => {
             it('should swap two images when each are clicked', () => {
                 const imgList = container.querySelectorAll('img');
 
-                expect(imgList[0].src).toEqual(process.env.REACT_APP_BASE_URL + puzzleName + '/' + 2 + '.png');
-                expect(imgList[1].src).toEqual(process.env.REACT_APP_BASE_URL + puzzleName + '/' + 1 + '.png');
+                expect(imgList[0].src).toMatch(puzzleName + '/' + 2 + '.png');
+                expect(imgList[1].src).toMatch(puzzleName + '/' + 1 + '.png');
 
                 for (let i = 2; i < 9; i++) {
-                    expect(imgList[i].src).toEqual(process.env.REACT_APP_BASE_URL + puzzleName + '/' + (i + 1) + '.png');
+                    expect(imgList[i].src).toMatch(puzzleName + '/' + (i + 1) + '.png');
                 }
             });
         });

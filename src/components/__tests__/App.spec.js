@@ -8,7 +8,6 @@ describe('App component', () => {
     let container;
 
     beforeEach(() => {
-        process.env.REACT_APP_BASE_URL = 'http://localhost/';
         container = render(<App/>).container;
     });
 
