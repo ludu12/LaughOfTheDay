@@ -1,4 +1,4 @@
-export const S3_URL = 'https://photo-puzzle-picture.s3.amazonaws.com/';
+export const S3_URL = '../img/';
 
 export const getConfiguration = (picture) => {
     const configuration = [];
