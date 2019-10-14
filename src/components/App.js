@@ -16,14 +16,17 @@ export const App = () => {
 
     React.useEffect(()=> {
         fetch('https://ld5whwmgo8.execute-api.ca-central-1.amazonaws.com/prod/getPhoto')
-        .then(res => res.json())
-        .then((data) => {
-          console.log('Got a response')
-          const picturesArray = data.Items.map(function(photo){return photo.Name})
-          setPictureList(picturesArray)
-        })
-        .catch(console.log)
-    })
+            .then(res => res.json())
+            .then((data) => {
+                console.log('Got a response');
+                const picturesArray = data.Items.map(function(photo){
+                    return photo.Name; 
+                });
+
+                setPictureList(picturesArray);
+            })
+            .catch(console.log);
+    });
 
     return (
         <div className='App'>
