@@ -26,6 +26,10 @@
 
 3. Fetching data  
     ```
+    import axios from 'axios';
+    const LAMBDA_URL = 'https://ld5whwmgo8.execute-api.ca-central-1.amazonaws.com/prod/getPhoto';
+
+    ...
     const fetchData = async () => {
         const response = await axios.get('https://ld5whwmgo8.execute-api.ca-central-1.amazonaws.com/prod/getPhoto');
 
