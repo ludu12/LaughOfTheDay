@@ -1,5 +1,6 @@
 import React from 'react';
 import { Puzzle } from './Puzzle';
+import axios from 'axios';
 
 const options = [
     { value: 'numbers', label: 'Numbers' },
@@ -14,19 +15,15 @@ export const App = () => {
         setPicture(e.target.value);
     };
 
-    React.useEffect(()=> {
-        fetch('https://ld5whwmgo8.execute-api.ca-central-1.amazonaws.com/prod/getPhoto')
-            .then(res => res.json())
-            .then((data) => {
-                console.log('Got a response');
-                const picturesArray = data.Items.map(function(photo){
-                    return photo.Name; 
-                });
+    React.useEffect(() => {
+        const fetchData = async () => {
+            const response = await axios.get('https://ld5whwmgo8.execute-api.ca-central-1.amazonaws.com/prod/getPhoto');
 
-                setPictureList(picturesArray);
-            })
-            .catch(console.log);
-    });
+            setPictureList(response.data.Items.map((photo) => photo.Name));
+        };
+
+        fetchData();
+    }, []);
 
     return (
         <div className='App'>

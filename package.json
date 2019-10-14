@@ -1,5 +1,5 @@
 {
-  "name": "laugh-of-the-day",
+  "name": "puzzle-it",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -29,6 +29,7 @@
     "eslint-plugin-react-hooks": "^1.7.0"
   },
   "dependencies": {
+    "axios": "^0.19.0",
     "eslint-plugin-babel": "^5.3.0",
     "prop-types": "^15.7.2",
     "react": "^16.9.0",
