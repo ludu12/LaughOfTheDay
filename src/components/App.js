@@ -1,7 +1,5 @@
 import React from 'react';
 import { Puzzle } from './Puzzle';
-import axios from 'axios';
-const LAMBDA_URL = 'https://ld5whwmgo8.execute-api.ca-central-1.amazonaws.com/prod/getPhoto';
 
 export const App = () => {
     const [picture, setPicture] = React.useState(null);
@@ -13,17 +11,11 @@ export const App = () => {
 
     React.useEffect(() => {
         const fetchData = async () => {
-            const response = await axios.get(LAMBDA_URL);
-            const pictureArray = response.data.Items.map((photo) => photo.Name);
-
-            setPictureList(pictureArray);
-            setPicture(pictureArray[0]);
+            setPictureList(['numbers', 'butterfly']);
+            setPicture('numbers');
         };
 
         fetchData();
-
-        // setPictureList(['numbers', 'butterfly']);
-        // setPicture('numbers');
     }, []);
 
     return (

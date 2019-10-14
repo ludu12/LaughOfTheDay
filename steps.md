@@ -31,10 +31,11 @@
 
     ...
     const fetchData = async () => {
-        const response = await axios.get('https://ld5whwmgo8.execute-api.ca-central-1.amazonaws.com/prod/getPhoto');
+        const response = await axios.get(LAMBDA_URL);
+        const pictureArray = response.data.Items.map((photo) => photo.Name);
 
-        setPictureList(response.data.Items.map((photo) => photo.Name));
-        setPicture(pictureList[0]);
+        setPictureList(pictureArray);
+        setPicture(pictureArray[0]);
     };
 
     fetchData();
