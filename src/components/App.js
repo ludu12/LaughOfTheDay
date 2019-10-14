@@ -1,14 +1,9 @@
 import React from 'react';
 import { Puzzle } from './Puzzle';
-import axios from 'axios';
 
-const options = [
-    { value: 'numbers', label: 'Numbers' },
-    { value: 'butterfly', label: 'Butterfly' }
-];
-
+//
 export const App = () => {
-    const [picture, setPicture] = React.useState(options[0].value);
+    const [picture, setPicture] = React.useState(null);
     const [pictureList, setPictureList] = React.useState([]);
 
     const handleSelect = (e) => {
@@ -16,14 +11,19 @@ export const App = () => {
     };
 
     React.useEffect(() => {
+        // TODO: Put this code in slides
         const fetchData = async () => {
             const response = await axios.get('https://ld5whwmgo8.execute-api.ca-central-1.amazonaws.com/prod/getPhoto');
 
             setPictureList(response.data.Items.map((photo) => photo.Name));
+            setPicture(pictureList[0]);
         };
 
         fetchData();
+        setPictureList(['numbers', 'butterfly']);
     }, []);
+
+    // TODO: add loading something
 
     return (
         <div className='App'>
