@@ -1,4 +1,4 @@
-# Steps
+# Step cheatsheet
 
 1. Github
     - Login to [Github](https://github.com/login)
