@@ -35,3 +35,26 @@ const fetchData = async () => {
 
 fetchData();
 ```
+
+**Lambda function:**
+```
+const AWS = require('aws-sdk');
+const docClient = new AWS.DynamoDB.DocumentClient({region: 'ca-central-1'});
+
+exports.handler = function (event, context, callback) {
+
+    let scanParams = { 
+        TableName:  "photo-names",
+        Limit: 20
+    }
+    
+    docClient.scan(scanParams, function(error, data){
+        if(error){
+            callback(error, null)
+        }else{
+            callback(null, data)
+        }
+    });
+};
+```
+
